@@ -12,7 +12,19 @@
     "paths": {
       "@/*": [
         "*"
-      ]
+      ],
+      "@models/*": [
+        "models/*"
+      ],
+      "@controllers/*": [
+        "controllers/*"
+      ],
+      "@routes/*": [
+        "routes/*"
+      ],
+      "@services/*": [
+        "services/*"
+      ],
     }
   },
   "include": [
