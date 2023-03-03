@@ -1,21 +1,33 @@
 import { Request, Response } from "express";
-import { User } from "@models/user.model";
-import { fetchAllUsers, getUserByID } from "@services/user.service";
+import { createNewUser, fetchAllUsers } from "@services/user.service";
+import { IUser } from "@interfaces/user.interface";
 
-const getUser = (req:Request,res:Response) => {
-    const id = req.params.id;
-    const user:User = getUserByID(Number(id));
-
-    return res.status(200).json({
-        data: user
-    })
+const getAllUsers = async(req:Request,res:Response) => {
+    try {
+        const users:IUser[] = await fetchAllUsers()
+        return res.status(200).json({
+            data: users
+        })
+    } catch {
+        return res.status(500).json({
+            msg: 'Cannot fetch users'
+        })
+    }
 }
 
-const getAllUsers = (req:Request,res:Response) => {
-    const users:User[] = fetchAllUsers();
-    return res.status(200).json({
-        data: users
-    })
+const createUser = async(req:Request,res:Response) => {
+    try {
+        const userData:IUser = req.body;
+        const newUser:IUser = await createNewUser(userData);
+        return res.status(200).json({
+            data: newUser
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            msg: 'Cannot create users'
+        })
+    }
 }
 
-export { getUser, getAllUsers }
+export { getAllUsers ,createUser}
